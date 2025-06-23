@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: countries
+label: Countries
+type: 'canonical_entities:taxonomy_term'
+pattern: '/countries/[term:field_iso_3]'
+selection_criteria:
+  971583c7-e3a6-4a8d-88d9-f50270619db2:
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    uuid: 971583c7-e3a6-4a8d-88d9-f50270619db2
+    context_mapping:
+      taxonomy_term: taxonomy_term
+    bundles:
+      countries: countries
+selection_logic: and
+weight: -8
+relationships:
+  'taxonomy_term:langcode:language':
+    label: Language
