@@ -5,18 +5,6 @@ structured PDF/Word etc. documents
 
 ## Prerequisites
 
-Before enabling this module, make sure that the following modules are present in your codebase by adding them to your composer.json and by running composer update:
-In `composer.json`:
-
-```php
-"require": {
-  "drupal/core": "^9.4 || ^10 || ^11",
-  "drupal/better_exposed_filters": "^6.0",
-  "drupal/entity_browser": "^2.9",
-  "drupal/search_api_solr":"^4.3",
-  "drupal/views_bulk_operations": "^4.2"
-}
-```
 The `entity_reference_revisions` module requires the following patch to be applied:
 
 ```php
@@ -32,18 +20,10 @@ and for core:^10 || ^11:
 ```php
 "patches": {
     "drupal/core": {
-      "#2429699 - Add Views EntityReference filter to be available for all entity reference fields":"https://git.drupalcode.org/project/drupal/-/merge_requests/3086.patch"
+      "#2429699 - Add Views EntityReference filter to be available for all entity reference fields":"https://www.drupal.org/files/issues/2024-08-24/entity_reference_revisions-2799479-231--no-tests.patch"
     }
 }
 ```
-for core:^9.4
-```php
-"patches": {
-    "drupal/core": {
-      "#2457999 - Cannot use relationship for rendered entity on Views": "https://www.drupal.org/files/issues/2023-01-04/2457999-9.5.x-309.patch",
-      "#2429699 - Add Views EntityReference filter to be available for all entity reference fields":"https://git.drupalcode.org/project/drupal/-/merge_requests/3086.patch"
-    }
-}
 ```
 
 For a better experience install `file_replace` and apply the patch:
