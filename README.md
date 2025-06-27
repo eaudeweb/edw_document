@@ -15,17 +15,6 @@ The `entity_reference_revisions` module requires the following patch to be appli
 }
 ```
 
-and for core:^10 || ^11:
-
-```php
-"patches": {
-    "drupal/core": {
-      "#2429699 - Add Views EntityReference filter to be available for all entity reference fields":"https://www.drupal.org/files/issues/2024-08-24/entity_reference_revisions-2799479-231--no-tests.patch"
-    }
-}
-```
-```
-
 For a better experience install `file_replace` and apply the patch:
 
 ```php
