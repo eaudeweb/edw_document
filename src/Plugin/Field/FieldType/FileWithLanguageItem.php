@@ -13,7 +13,7 @@ use Drupal\file\Plugin\Field\FieldType\FileItem;
  *   id = "file_language",
  *   label = @Translation("File with Language"),
  *   description = @Translation("This field stores the ID of a file and Language langcode as an integer values."),
- *   category = @Translation("Reference"),
+ *   category = @Translation("reference"),
  *   default_widget = "file_generic_with_language",
  *   default_formatter = "file_with_language_formatter",
  *   list_class = "\Drupal\file\Plugin\Field\FieldType\FileFieldItemList",
