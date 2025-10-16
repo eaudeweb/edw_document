@@ -81,7 +81,7 @@ class DownloadFileFormatter extends GenericFileFormatter implements ContainerFac
       $path = (count($filesUrls) < 2) ? $this->documentManager->downloadFile($filesUrls) : $this->documentManager->archiveFiles($filesUrls);
       return [
         '#type' => 'link',
-        '#url' => Url::fromUri($path, [
+        '#url' => Url::fromUserInput($path, [
           'attributes' => [
             'target' => '_blank',
           ],
