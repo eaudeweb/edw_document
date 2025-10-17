@@ -93,6 +93,13 @@ class DocumentManager {
   protected $archive;
 
   /**
+   * Directory path for document archives.
+   *
+   * @var string
+   */
+  protected $directory;
+
+  /**
    * Constructs a new DocumentManager object.
    */
   public function __construct(CurrentRouteMatch $currentRouteMatch, EntityTypeManagerInterface $entityTypeManager, ModuleExtensionList $extensionListModule, FileUrlGeneratorInterface $fileUrlGenerator, FileSystemInterface $fileSystem, LanguageManagerInterface $languageManager, Connection $database) {
