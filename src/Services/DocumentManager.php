@@ -378,7 +378,7 @@ class DocumentManager {
         continue;
       }
 
-      if (!in_array(strtolower(pathinfo($uri, PATHINFO_EXTENSION)), $formats)) {
+      if (!in_array($this->getUriType($uri), $formats)) {
         unset($files[$fid]);
       }
     }
