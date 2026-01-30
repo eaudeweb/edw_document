@@ -79,6 +79,15 @@ class DownloadFileFormatter extends GenericFileFormatter implements ContainerFac
     if (count($formats) == 1 && count($languages) == 1) {
       $filesUrls = $this->documentManager->getFilteredFiles([$entity->id()], [], $items->getName(), $formats, $languages);
       if (empty($filesUrls)) {
+        \Drupal::logger('edw_document')->warning(
+        'No files found for entity @entity_type:@id, field "@field". Languages: @languages.',
+          [
+            '@entity_type' => $entity->getEntityTypeId(),
+            '@id' => $entity->id(),
+            '@field' => $items->getName(),
+            '@languages' => implode(', ', $languages),
+          ]
+        );
         return [];
       }
       $path = (count($filesUrls) < 2) ? $this->documentManager->downloadFile($filesUrls) : $this->documentManager->archiveFiles($filesUrls);
