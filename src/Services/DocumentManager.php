@@ -384,7 +384,7 @@ class DocumentManager {
     }
 
     if (empty($files)) {
-      throw new NotFoundHttpException();
+      return [];
     }
 
     return $files;
