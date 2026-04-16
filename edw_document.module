@@ -179,10 +179,7 @@ function edw_document_file_url_alter(&$uri) {
   $file = $documentManager->getFileByUri($uri);
   if ($file instanceof File) {
     $uuid = $file->uuid();
-    $url = Url::fromRoute('edw_document.serve_file', ['uuid' => $uuid], [
-      'query' => ['filename' => $file->getFilename()],
-      'absolute' => TRUE,
-    ]);
+    $url = Url::fromRoute('edw_document.serve_file', ['uuid' => $uuid], ['query' => ['filename' => $file->getFilename()]]);
     $uri = $url->toString();
   }
 }
