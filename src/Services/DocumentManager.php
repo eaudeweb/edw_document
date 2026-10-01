@@ -81,9 +81,9 @@ class DocumentManager {
    *
    * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
-    protected $moduleHandler;
+  protected $moduleHandler;
 
-    /**
+  /**
    * Cached archive object.
    *
    * @var \Archive_Tar|\ZipArchive
@@ -147,46 +147,46 @@ class DocumentManager {
   protected function getDefaultFormats(): array {
     $iconsPath = sprintf('/%s/images/icons', $this->moduleExtensionList->getPath('edw_document'));
     return [
-        'pdf' => [
-            'label' => 'PDF',
-            'icon' => "$iconsPath/application-pdf.png",
-            'extensions' => ['pdf'],
-        ],
-        'document' => [
-            'label' => 'DOC',
-            'icon' => "$iconsPath/x-office-document.png",
-            'extensions' => ['csv', 'doc', 'docm', 'docx', 'fodg', 'fodt', 'odf', 'odg', 'odt', 'pages', 'rtf'],
-        ],
-        'spreadsheet' => [
-            'label' => 'XLS',
-            'icon' => "$iconsPath/x-office-spreadsheet.png",
-            'extensions' => ['numbers', 'fods', 'ods', 'xls', 'xlsx'],
-        ],
-        'presentation' => [
-            'label' => 'PPT',
-            'icon' => "$iconsPath/x-office-presentation.png",
-            'extensions' => ['key', 'fodp', 'odp', 'ppt', 'pptx'],
-        ],
-        'video' => [
-            'label' => 'VIDEO',
-            'icon' => "$iconsPath/video-x-generic.png",
-            'extensions' => ['mp4', 'mov', 'avi'],
-        ],
-        'text' => [
-            'label' => 'TEXT',
-            'icon' => "$iconsPath/text-plain.png",
-            'extensions' => ['txt'],
-        ],
-        'image' => [
-            'label' => 'IMG',
-            'icon' => "$iconsPath/image-x-generic.png",
-            'extensions' => ['gif', 'jpg', 'jpeg', 'png', 'svg'],
-        ],
-        'link' => [
-            'label' => '',
-            'icon' => "$iconsPath/text-html.png",
-            'extensions' => ['shtml', 'htm'],
-        ],
+      'pdf' => [
+        'label' => 'PDF',
+        'icon' => "$iconsPath/application-pdf.png",
+        'extensions' => ['pdf'],
+      ],
+      'document' => [
+        'label' => 'DOC',
+        'icon' => "$iconsPath/x-office-document.png",
+        'extensions' => ['csv', 'doc', 'docm', 'docx', 'fodg', 'fodt', 'odf', 'odg', 'odt', 'pages', 'rtf'],
+      ],
+      'spreadsheet' => [
+        'label' => 'XLS',
+        'icon' => "$iconsPath/x-office-spreadsheet.png",
+        'extensions' => ['numbers', 'fods', 'ods', 'xls', 'xlsx'],
+      ],
+      'presentation' => [
+        'label' => 'PPT',
+        'icon' => "$iconsPath/x-office-presentation.png",
+        'extensions' => ['key', 'fodp', 'odp', 'ppt', 'pptx'],
+      ],
+      'video' => [
+        'label' => 'VIDEO',
+        'icon' => "$iconsPath/video-x-generic.png",
+        'extensions' => ['mp4', 'mov', 'avi'],
+      ],
+      'text' => [
+        'label' => 'TEXT',
+        'icon' => "$iconsPath/text-plain.png",
+        'extensions' => ['txt'],
+      ],
+      'image' => [
+        'label' => 'IMG',
+        'icon' => "$iconsPath/image-x-generic.png",
+        'extensions' => ['gif', 'jpg', 'jpeg', 'png', 'svg'],
+      ],
+      'link' => [
+        'label' => '',
+        'icon' => "$iconsPath/text-html.png",
+        'extensions' => ['shtml', 'htm'],
+      ],
     ];
   }
 
@@ -219,6 +219,7 @@ class DocumentManager {
     $this->extensionMap = $extensionMap;
     return $this->extensionMap;
   }
+
   /**
    * {@inheritdoc}
    */
@@ -542,4 +543,5 @@ class DocumentManager {
       }
     }
   }
+
 }
