@@ -64,6 +64,26 @@ formatter and display only files with language as a dropdown (using
 - Facet Processor **List item Language** - Display the language name instead 
 of langcode.
 
+## Document formats
+
+The download-documents modal groups file extensions into "formats" (DOC,
+XLS, PPT, etc.), one checkbox per format. The default groupings are defined
+in `DocumentManager::getFormats()`. To change them for a specific site,
+implement `hook_edw_document_formats_alter()` in a custom module:
+
+```php
+use Drupal\edw_document\Services\DocumentManager;
+
+/**
+ * Implements hook_edw_document_formats_alter().
+ */
+function mysite_document_edw_document_formats_alter(array &$formats) {
+  DocumentManager::splitFormatsByExtension($formats, [
+    'doc', 'docx', 'docm', 'rtf', 'txt', 'xls', 'xlsx', 'ppt', 'pptx',
+  ]);
+}
+```
+
 ## Other EDW modules:
 * [edw_blocks](https://github.com/eaudeweb/edw_blocks)
 * [edw_decoupled](https://github.com/eaudeweb/edw_decoupled)
