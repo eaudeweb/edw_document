@@ -121,13 +121,12 @@ class FileController extends ControllerBase implements ContainerInjectionInterfa
     ];
     $filename = $request->query->get('filename') ?? $file->getFilename();
 
-    // Mirror core's FileDownloadController so private files keep the access
-    // rules enforced on /system/files.
+    $hookHeaders = [];
+    if (!$this->documentManager->isDownloadable($file, $hookHeaders)) {
+      throw new AccessDeniedHttpException();
+    }
+
     if ($this->streamWrapperManager->getScheme($uri) !== 'public') {
-      $hookHeaders = $this->moduleHandler()->invokeAll('file_download', [$uri]);
-      if (empty($hookHeaders) || in_array(-1, $hookHeaders, TRUE)) {
-        throw new AccessDeniedHttpException();
-      }
       $response = new BinaryFileResponse($uri, 200, $headers + $hookHeaders, FALSE);
       $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_INLINE, $filename);
       return $response;

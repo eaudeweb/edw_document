@@ -7,14 +7,17 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Site\Settings;
+use Drupal\Core\StreamWrapper\StreamWrapperManagerInterface;
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
+use Drupal\file\FileInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -86,6 +89,20 @@ class DocumentManager {
   protected $moduleExtensionList;
 
   /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * The stream wrapper manager.
+   *
+   * @var \Drupal\Core\StreamWrapper\StreamWrapperManagerInterface
+   */
+  protected $streamWrapperManager;
+
+  /**
    * Cached archive object.
    *
    * @var \Archive_Tar|\ZipArchive
@@ -102,7 +119,7 @@ class DocumentManager {
   /**
    * Constructs a new DocumentManager object.
    */
-  public function __construct(CurrentRouteMatch $currentRouteMatch, EntityTypeManagerInterface $entityTypeManager, ModuleExtensionList $extensionListModule, FileUrlGeneratorInterface $fileUrlGenerator, FileSystemInterface $fileSystem, LanguageManagerInterface $languageManager, Connection $database) {
+  public function __construct(CurrentRouteMatch $currentRouteMatch, EntityTypeManagerInterface $entityTypeManager, ModuleExtensionList $extensionListModule, FileUrlGeneratorInterface $fileUrlGenerator, FileSystemInterface $fileSystem, LanguageManagerInterface $languageManager, Connection $database, ModuleHandlerInterface $moduleHandler, StreamWrapperManagerInterface $streamWrapperManager) {
     $this->currentRouteMatch = $currentRouteMatch;
     $this->database = $database;
     $this->entityTypeManager = $entityTypeManager;
@@ -110,6 +127,8 @@ class DocumentManager {
     $this->fileSystem = $fileSystem;
     $this->languageManager = $languageManager;
     $this->moduleExtensionList = $extensionListModule;
+    $this->moduleHandler = $moduleHandler;
+    $this->streamWrapperManager = $streamWrapperManager;
   }
 
   /**
@@ -294,7 +313,28 @@ class DocumentManager {
    *   The files the current user may download.
    */
   public function filterDownloadable(array $files) {
-    return array_filter($files, fn ($file) => $file->access('download'));
+    return array_filter($files, fn ($file) => $this->isDownloadable($file));
+  }
+
+  /**
+   * Checks whether the current user may download the given file using hook_file_download().
+   *
+   * @param \Drupal\file\FileInterface $file
+   *   The file.
+   * @param array $headers
+   *   (optional) Populated with the headers returned by hook_file_download().
+   *
+   * @return bool
+   *   TRUE if the current user may download the file.
+   */
+  public function isDownloadable(FileInterface $file, array &$headers = []): bool {
+    $headers = [];
+    $uri = $file->getFileUri();
+    if ($this->streamWrapperManager->getScheme($uri) === 'public') {
+      return TRUE;
+    }
+    $headers = $this->moduleHandler->invokeAll('file_download', [$uri]);
+    return !empty($headers) && !in_array(-1, $headers, TRUE);
   }
 
   /**
