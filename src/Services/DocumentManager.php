@@ -93,13 +93,6 @@ class DocumentManager {
   protected $streamWrapperManager;
 
   /**
-   * The module handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
    * Cached archive object.
    *
    * @var \Archive_Tar|\ZipArchive
